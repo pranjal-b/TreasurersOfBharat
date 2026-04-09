@@ -29,7 +29,7 @@
     var key =
       typeof window.SUPABASE_ANON_KEY === "string" ? window.SUPABASE_ANON_KEY.trim() : "";
     if (!url || !key || /YOUR/i.test(url) || /YOUR/i.test(key)) {
-      return "Waitlist is not configured. Copy config.example.js to config.js and add your Supabase URL and anon key.";
+      return "Waitlist is not configured. Edit supabase.config.js with your Supabase URL and anon key (see config.example.js).";
     }
     return null;
   }

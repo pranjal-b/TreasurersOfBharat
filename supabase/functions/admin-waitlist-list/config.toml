@@ -1,2 +1,5 @@
-verify_jwt = true
+# Gateway JWT verification expects legacy JWT-shaped anon keys. New publishable keys
+# (`sb_publishable_...`) are not JWTs, so the gateway can return 401 Invalid JWT before
+# this function runs. Auth is enforced in index.ts via getUser(token) + ADMIN_EMAIL.
+verify_jwt = false
 

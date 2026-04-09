@@ -71,11 +71,14 @@ The site uses `supabase.config.js` (committed) and optionally `config.js` (gitig
 
 The admin dashboard lives at `admin.html`. It uses **Supabase Auth (email + password)** in the browser, but it does **not** query the database directly.
 
-Instead, it calls a JWT-protected Edge Function that:
+Instead, it calls an Edge Function that:
 
-- verifies the user session token
+- reads the user’s **Auth access token** from the `Authorization: Bearer …` header
+- verifies it server-side with `auth.getUser(token)` (service role client)
 - checks the signed-in user’s email against a single allowlisted admin email (`ADMIN_EMAIL`)
 - returns waitlist rows using the **service role key** (server-side only)
+
+**Note:** This function sets **gateway** `verify_jwt = false` in `supabase/functions/admin-waitlist-list/config.toml`. Supabase’s gateway-level JWT check is built around legacy **JWT-shaped** anon keys; newer **publishable** keys (`sb_publishable_…`) are not JWTs and can trigger `401 {"code":401,"message":"Invalid JWT"}` before your code runs. Disabling gateway verification is safe here because the function still validates the user token and allowlists `ADMIN_EMAIL` before returning any rows.
 
 #### 1) Create the admin user (Supabase Auth)
 

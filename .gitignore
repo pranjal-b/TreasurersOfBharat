@@ -1,2 +1,5 @@
 # Local Supabase client secrets (copy from config.example.js)
 config.js
+
+# Supabase CLI local metadata
+supabase/.temp/

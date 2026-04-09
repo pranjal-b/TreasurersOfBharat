@@ -26,10 +26,8 @@
 
   function getConfigError() {
     var url = typeof window.SUPABASE_URL === "string" ? window.SUPABASE_URL.trim() : "";
-    var key =
-      typeof window.SUPABASE_ANON_KEY === "string" ? window.SUPABASE_ANON_KEY.trim() : "";
-    if (!url || !key || /YOUR/i.test(url) || /YOUR/i.test(key)) {
-      return "Waitlist is not configured. Edit supabase.config.js with your Supabase URL and anon key (see config.example.js).";
+    if (!url || /YOUR/i.test(url)) {
+      return "Waitlist is not configured. Edit supabase.config.js with your Supabase URL (see config.example.js).";
     }
     return null;
   }
@@ -61,7 +59,6 @@
     }
 
     var base = window.SUPABASE_URL.replace(/\/?$/, "");
-    var key = window.SUPABASE_ANON_KEY.trim();
 
     var fd = new FormData(form);
     var fullName = (fd.get("full_name") || "").toString().trim();
@@ -85,13 +82,10 @@
       submitBtn.setAttribute("aria-busy", "true");
     }
 
-    fetch(base + "/rest/v1/waitlist_signups", {
+    fetch(base + "/functions/v1/waitlist-signup", {
       method: "POST",
       headers: {
-        apikey: key,
-        Authorization: "Bearer " + key,
         "Content-Type": "application/json",
-        Prefer: "return=minimal",
       },
       body: JSON.stringify(payload),
     })
@@ -104,7 +98,7 @@
         }
         return res.text().then(function (text) {
           var msg = parseErrorBody(text);
-          console.error("[waitlist] Supabase error", res.status, text);
+          console.error("[waitlist] Waitlist function error", res.status, text);
           setStatus("error", msg);
           if (statusEl) statusEl.focus();
         });

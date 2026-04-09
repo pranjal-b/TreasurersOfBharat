@@ -143,54 +143,53 @@
 
     <section id="waitlist" class="waitlist section--alt" aria-labelledby="waitlist-heading">
       <div class="container container--narrow">
-        <header class="section-header section-header--left">
-          <h2 id="waitlist-heading" class="section-title">Join the waitlist</h2>
-          <p class="section-subtitle">Be first to get access when we open doors. Fields marked below must match your form provider dashboard.</p>
-        </header>
-        <div class="form-card">
-          <!-- Replace YOUR_FORM_ENDPOINT with your Formspree/Tally POST URL; map fields: full_name, email, designation, linkedin_url, form_type -->
+        <div class="form-card form-card--waitlist">
+          <header class="form-card__header">
+            <h2 id="waitlist-heading" class="form-card__heading">Join the Waitlist</h2>
+            <p class="form-card__intro">
+              Be among the first to join India's most exclusive treasury professional community. Limited spots available.
+            </p>
+          </header>
+          <!-- Replace YOUR_FORM_ENDPOINT with your Formspree/Tally POST URL; map fields: full_name, email, designation, linkedin_url, phone (optional), form_type -->
           <form
-            class="form"
+            class="form form--waitlist"
             method="post"
             action="YOUR_FORM_ENDPOINT"
           >
             <div class="form__field">
-              <label for="full_name">Full Name</label>
-              <input id="full_name" name="full_name" type="text" autocomplete="name" placeholder="e.g. Priya Sharma" required />
+              <label for="full_name">
+                Full Name <span class="form__required" aria-hidden="true">*</span>
+              </label>
+              <input id="full_name" name="full_name" type="text" autocomplete="name" placeholder="Enter your full name" required />
             </div>
             <div class="form__field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
+              <label for="email">
+                Email Address <span class="form__required" aria-hidden="true">*</span>
+              </label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="your.email@company.com" required />
             </div>
             <div class="form__field">
-              <label for="designation">Current Designation</label>
-              <input id="designation" name="designation" type="text" autocomplete="organization-title" placeholder="e.g. Head of Treasury" required />
+              <label for="designation">
+                Current Designation <span class="form__required" aria-hidden="true">*</span>
+              </label>
+              <input id="designation" name="designation" type="text" autocomplete="organization-title" placeholder="e.g., Treasury Manager, CFO, Finance Director" required />
             </div>
             <div class="form__field">
-              <label for="linkedin_url">LinkedIn URL</label>
-              <input id="linkedin_url" name="linkedin_url" type="url" inputmode="url" autocomplete="url" placeholder="https://linkedin.com/in/your-profile" required />
+              <label for="linkedin_url">
+                LinkedIn Profile URL <span class="form__required" aria-hidden="true">*</span>
+              </label>
+              <input id="linkedin_url" name="linkedin_url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.linkedin.com/in/yourprofile" required />
             </div>
-            <input type="hidden" name="form_type" value="waitlist" />
-            <button type="submit" class="btn btn--primary btn--block">Join Waitlist</button>
-          </form>
-        </div>
-
-        <div class="form-card form-card--phone" id="phone-cta">
-          <h3 class="form-card__title">Get notified by SMS</h3>
-          <p class="form-card__hint">Optional: leave your number for launch-day updates.</p>
-          <!-- Same YOUR_FORM_ENDPOINT; map: phone, form_type -->
-          <form
-            class="form form--phone"
-            method="post"
-            action="YOUR_FORM_ENDPOINT"
-          >
-            <input type="hidden" name="form_type" value="phone" />
             <div class="form__field">
-              <label for="phone">Phone number</label>
+              <label for="phone">Phone Number (Optional)</label>
               <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" inputmode="tel" />
             </div>
-            <button type="submit" class="btn btn--primary btn--block">Submit</button>
+            <input type="hidden" name="form_type" value="waitlist" />
+            <button type="submit" class="btn btn--waitlist btn--block">Join the Waitlist</button>
           </form>
+          <p class="form-card__legal">
+            By joining, you agree to receive updates about Treasurers of Bharat community.
+          </p>
         </div>
       </div>
     </section>
@@ -208,7 +207,6 @@
           <li><a href="#top">Home</a></li>
           <li><a href="#offer">What we offer</a></li>
           <li><a href="#waitlist">Join waitlist</a></li>
-          <li><a href="#phone-cta">SMS updates</a></li>
         </ul>
       </nav>
       <div class="site-footer__connect">

@@ -115,6 +115,13 @@ a:hover {
   max-width: 560px;
 }
 
+/* Wider waitlist form on larger screens */
+@media (min-width: 768px) {
+  #waitlist .container--narrow {
+    max-width: 760px;
+  }
+}
+
 /* Header */
 .site-header {
   position: sticky;

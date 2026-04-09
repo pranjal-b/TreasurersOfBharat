@@ -67,6 +67,43 @@ The site uses `supabase.config.js` (committed) and optionally `config.js` (gitig
 - `window.SUPABASE_URL` must be set to your project URL.
 - The anon/publishable key is **public by design**; RLS protects tables. (After hardening, the waitlist insert happens via the Edge Function, not via `/rest/v1`.)
 
+### Admin dashboard
+
+The admin dashboard lives at `admin.html`. It uses **Supabase Auth (email + password)** in the browser, but it does **not** query the database directly.
+
+Instead, it calls a JWT-protected Edge Function that:
+
+- verifies the user session token
+- checks the signed-in user’s email against a single allowlisted admin email (`ADMIN_EMAIL`)
+- returns waitlist rows using the **service role key** (server-side only)
+
+#### 1) Create the admin user (Supabase Auth)
+
+Supabase Dashboard → Authentication → Users → **Add user**:
+
+- Email: your chosen admin email
+- Password: choose a strong password
+
+#### 2) Set Edge Function secrets (one-time)
+
+Supabase Dashboard → Project Settings → Edge Functions → Secrets:
+
+- `SUPABASE_URL` = `https://bwpujcpdzezyvhqalvkf.supabase.co`
+- `SUPABASE_SERVICE_ROLE_KEY` = `<service_role key>` (Dashboard → Project Settings → API)
+- `ADMIN_EMAIL` = `<the exact admin email you created above>`
+
+#### 3) Deploy the admin list function
+
+```bash
+supabase functions deploy admin-waitlist-list
+```
+
+#### 4) Use the dashboard
+
+- Serve the site (see “Local development” below)
+- Visit `admin.html`
+- Sign in with the admin email/password
+
 ### Local development
 
 This is a static site. Serve the repo with any static server, for example:

@@ -743,3 +743,138 @@ a:hover {
   opacity: 0.65;
   user-select: none;
 }
+
+/* Admin dashboard */
+.admin {
+  padding-block: var(--space-section-y-sm);
+  background: var(--color-bg-alt);
+  min-height: calc(100vh - 4.25rem);
+}
+
+.admin__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.admin__header {
+  text-align: left;
+}
+
+.admin__title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  font-weight: 700;
+  color: var(--color-navy);
+  letter-spacing: -0.03em;
+}
+
+.admin__subtitle {
+  margin: 0;
+  color: #6b7280;
+  max-width: 48rem;
+}
+
+.admin__grid {
+  display: grid;
+  gap: clamp(1rem, 3vw, 1.25rem);
+}
+
+@media (min-width: 900px) {
+  .admin__grid {
+    grid-template-columns: 380px 1fr;
+    align-items: start;
+  }
+}
+
+.admin__card {
+  position: sticky;
+  top: 6rem;
+}
+
+.admin__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin__table-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.admin__table-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.admin__table-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  letter-spacing: -0.02em;
+}
+
+.admin__table-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.admin__table-wrap {
+  overflow: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.admin__empty {
+  padding: 1rem;
+  color: #6b7280;
+  font-size: 0.9375rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+.admin-table th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  z-index: 1;
+}
+
+.admin-table tbody tr:hover td {
+  background: rgba(20, 83, 45, 0.04);
+}
+
+.admin-table a {
+  color: var(--color-primary);
+}
+
+.admin-table a:hover {
+  color: var(--color-primary-hover);
+}

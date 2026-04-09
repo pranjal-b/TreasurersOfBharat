@@ -158,35 +158,43 @@
         empty.textContent = "Loading…";
       }
 
-      var base = window.SUPABASE_URL.replace(/\/?$/, "");
-      var res = await fetch(base + "/functions/v1/admin-waitlist-list", {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + session.access_token,
-          apikey: window.SUPABASE_ANON_KEY,
-        },
-      });
-
-      if (res.status === 401) {
+      // Refresh / validate the access token with Auth (getSession can be stale).
+      var userRes = await supabase.auth.getUser();
+      if (userRes.error || !userRes.data || !userRes.data.user) {
         setStatus(statusEl, "error", "Your session expired. Please sign in again.");
+        console.error("[admin] getUser failed", userRes.error);
         await supabase.auth.signOut();
         return;
       }
-      if (res.status === 403) {
+
+      var fn = await supabase.functions.invoke("admin-waitlist-list", { method: "GET" });
+      if (fn.error) {
+        var ctx = fn.error.context;
+        var status = ctx && typeof ctx.status === "number" ? ctx.status : null;
+        var msg = fn.error.message || "Could not load data.";
+        console.error("[admin] functions.invoke error", fn.error);
+        if (status === 401 || /jwt/i.test(msg)) {
+          setStatus(statusEl, "error", "Your session expired or the request was rejected. Sign in again, then redeploy admin-waitlist-list with verify_jwt disabled (see README).");
+          await supabase.auth.signOut();
+          return;
+        }
+        if (status === 403) {
+          setStatus(statusEl, "error", "Access denied. This account is not allowed.");
+          renderRows([]);
+          return;
+        }
+        setStatus(statusEl, "error", msg);
+        renderRows([]);
+        return;
+      }
+
+      var payload = fn.data;
+      if (payload && payload.ok === false && payload.message === "Forbidden.") {
         setStatus(statusEl, "error", "Access denied. This account is not allowed.");
         renderRows([]);
         return;
       }
-      if (!res.ok) {
-        var text = await res.text();
-        setStatus(statusEl, "error", "Could not load data (" + res.status + ").");
-        console.error("[admin] list function error", res.status, text);
-        renderRows([]);
-        return;
-      }
-
-      var data = await res.json();
-      renderRows((data && data.rows) || []);
+      renderRows((payload && payload.rows) || []);
     }
 
     if (form) {

@@ -78,7 +78,7 @@ Instead, it calls an Edge Function that:
 - checks the signed-in user’s email against a single allowlisted admin email (`ADMIN_EMAIL`)
 - returns waitlist rows using the **service role key** (server-side only)
 
-**Note:** This function sets **gateway** `verify_jwt = false` in `supabase/functions/admin-waitlist-list/config.toml`. Supabase’s gateway-level JWT check is built around legacy **JWT-shaped** anon keys; newer **publishable** keys (`sb_publishable_…`) are not JWTs and can trigger `401 {"code":401,"message":"Invalid JWT"}` before your code runs. Disabling gateway verification is safe here because the function still validates the user token and allowlists `ADMIN_EMAIL` before returning any rows.
+**Note:** This function disables **gateway** JWT verification (`verify_jwt = false` in **`supabase/config.toml`** → `[functions.admin-waitlist-list]`, also mirrored in the function folder for clarity). Supabase’s gateway-level JWT check is built around legacy **JWT-shaped** anon keys; newer **publishable** keys (`sb_publishable_…`) are not JWTs and can trigger `401 {"code":401,"message":"Invalid JWT"}` before your code runs. Disabling gateway verification is safe here because the function still validates the user token and allowlists `ADMIN_EMAIL` before returning any rows.
 
 #### 1) Create the admin user (Supabase Auth)
 
@@ -99,6 +99,12 @@ Supabase Dashboard → Project Settings → Edge Functions → Secrets:
 
 ```bash
 supabase functions deploy admin-waitlist-list
+```
+
+JWT verification for Edge Functions is configured in **`supabase/config.toml`** under `[functions.admin-waitlist-list]` (`verify_jwt = false`). The CLI uses this file on deploy; if you skip it or the setting does not apply, the API gateway can return `401` / `Invalid JWT` before the function runs. If that still happens after deploy, force it with:
+
+```bash
+supabase functions deploy admin-waitlist-list --no-verify-jwt
 ```
 
 #### 4) Use the dashboard

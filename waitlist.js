@@ -26,8 +26,10 @@
 
   function getConfigError() {
     var url = typeof window.SUPABASE_URL === "string" ? window.SUPABASE_URL.trim() : "";
-    if (!url || /YOUR/i.test(url)) {
-      return "Waitlist is not configured. Edit supabase.config.js with your Supabase URL (see config.example.js).";
+    var key =
+      typeof window.SUPABASE_ANON_KEY === "string" ? window.SUPABASE_ANON_KEY.trim() : "";
+    if (!url || !key || /YOUR/i.test(url) || /YOUR/i.test(key)) {
+      return "Waitlist is not configured. Edit supabase.config.js with your Supabase URL and anon key (see config.example.js).";
     }
     return null;
   }
@@ -59,6 +61,7 @@
     }
 
     var base = window.SUPABASE_URL.replace(/\/?$/, "");
+    var key = window.SUPABASE_ANON_KEY.trim();
 
     var fd = new FormData(form);
     var fullName = (fd.get("full_name") || "").toString().trim();
@@ -85,6 +88,8 @@
     fetch(base + "/functions/v1/waitlist-signup", {
       method: "POST",
       headers: {
+        apikey: key,
+        Authorization: "Bearer " + key,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),

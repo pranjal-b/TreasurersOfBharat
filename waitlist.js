@@ -61,7 +61,6 @@
     }
 
     var base = window.SUPABASE_URL.replace(/\/?$/, "");
-    var key = window.SUPABASE_ANON_KEY.trim();
 
     var fd = new FormData(form);
     var fullName = (fd.get("full_name") || "").toString().trim();
@@ -88,8 +87,6 @@
     fetch(base + "/functions/v1/waitlist-signup", {
       method: "POST",
       headers: {
-        apikey: key,
-        Authorization: "Bearer " + key,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),

@@ -674,6 +674,29 @@ a:hover {
   word-break: break-all;
 }
 
+.site-footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-top: 0.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-footer-muted);
+  text-decoration: none;
+}
+
+.site-footer__social:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  text-decoration: none;
+}
+
+.site-footer__social:focus-visible {
+  box-shadow: var(--focus-ring-invert);
+}
+
 .site-footer__bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-block: 1.15rem 1.35rem;

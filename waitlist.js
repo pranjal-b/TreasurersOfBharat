@@ -55,7 +55,7 @@
     if (cfgErr) {
       setStatus("error", cfgErr);
       console.error(
-        "[waitlist] Missing or placeholder Supabase config. See config.example.js."
+        "[waitlist] Missing or placeholder Supabase config. Edit supabase.config.js."
       );
       return;
     }
